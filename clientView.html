@@ -1,0 +1,188 @@
+<div class="breadcrumb">
+   <label>Instance:</label>
+              <ui-select class="componentSelect" on-select="client.instancecall()" ng-model="client.instance" theme="bootstrap">
+                <ui-select-match placeholder="Select or search a Moniter in the list...">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="item in client.instances | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>&nbsp;&nbsp;&nbsp;&nbsp;
+   <label>Select Moniter: {{client.selectedMoniter}}</label>
+              <ui-select class="componentSelect" on-select="client.monitorcall()"  ng-model="client.selectedMonitor" theme="bootstrap">
+              <ui-select-match placeholder="Select or search a Moniter in the list...">{{$select.selected.name}}</ui-select-match>
+              <ui-select-choices repeat="item in client.monitorList | filter: $select.search">
+               <div ng-bind-html="item.name | highlight: $select.search"></div>
+              </ui-select-choices>
+              </ui-select> &nbsp;&nbsp;&nbsp;&nbsp;
+
+   <label>Host Name: {{client.selectedHost}}</label>
+              <ui-select class="componentSelect" on-select="client.hostnamecall()" ng-model="client.selectedHost" theme="bootstrap">
+                <ui-select-match placeholder="Select or search a Moniter in the list...">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="item in client.getHostList | filter: $select.search">
+                  <div ng-bind-html="item.name | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+
+</div>
+
+
+
+<div class="col-lg-12 padding-0">
+  <div class="row">
+    <div class="pageHeader col-md-12">
+      <div class="col-lg-6 padding-0">
+        <a href="javascript:void" ui-sref="main.dashboard">
+          <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+        </a>
+        <h2> {{client.appName}}</h2>
+      </div>
+      <div class="col-lg-6 text-right padding-0">
+        <!--<label>Show Data for: {{client.dateRange}} </label>-->
+        <input date-range-picker class="form-control date-picker" type="text" on-select="client.chartview()" ng-model="client.dateRange" options="client.options"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-content-wrap">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12 clientCountsWrap">
+          <div class="col-md-3 clientCountBox">
+            <span>{{client.mearCountLen}}</span>
+            <h4>No. of Total Monitors</h4>
+          </div>
+          <div class="col-md-3 clientCountBox">
+            <span>{{client.failedLen}}</span>
+            <h4>No. of Failed Monitors</h4>
+          </div>
+          <div class="col-md-3 clientCountBox">
+            <span>{{client.maintLen}}</span>
+            <h4>No. of Maintance</h4>
+          </div>
+          <div class="col-md-3 clientCountBox">
+            <span>{{client.successLen}}</span>
+            <h4>No. of Success Monitors</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4" style="max-width: 20%;">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>Success/Fail/Maint</h3>
+            <!-- <span>Overall Status (Today)</span> -->
+          </div>
+        </div>
+        <div class="panel-body padding-0 dountChart" style="max-height: 330px;">
+          <div class="customLabelDount">
+            <div>
+              Success: <span>{{client.successLen}}</span>
+            </div>
+            <div>
+              Maintenance: <span>{{client.maintLen}}</span>
+            </div>
+            <div>
+              Failed: <span>{{client.failedLen}}</span>
+            </div>
+          </div>
+          <nvd3 options="client.dountChartOptions" data="client.dataDount"></nvd3>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8" style="max-width: 86%;">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>Fail/Success Rate Each Transaction</h3>
+          </div>
+        </div>
+        <div class="panel-body" style="max-height: 660px">
+          <nvd3 options="client.lineChartOptions" data="client.barChartData"></nvd3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- line chart -->
+<!--   <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title-box">
+            <h3>ResponseTime Vs Interval</h3>
+          </div>
+        </div>
+        <div class="panel-body">
+          <nvd3 options="client.lineChartOptions" data="client.barChartData"></nvd3>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <!-- line chart -->
+
+  <!-- Metrics table -->
+  <div class="col-lg-12 padding-0">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Metrics Report</h3>
+            <div class="btn-group pull-right" uib-dropdown>
+              <button class="btn btn-danger dropdown-toggle" uib-dropdown-toggle style="color: #fff"><i class="fa fa-bars"></i>
+                Export Data</button>
+              <ul class="dropdown-menu table-export" uib-dropdown-menu role="menu" aria-labelledby="single-button" table-selector="'customers2'"
+                export-options="{type: 'pdf', escape: true, ignoreColumn : '[4]', tableName: 'table' }">
+                <li te-option te-value="'pdf'" te-param="'type'">
+                  <a href="javascript:void(0)"><img src='assets/images/icons/json.png' width="24" /> PDF</a>
+                </li>
+                <li te-option te-value="'csv'" te-param="'type'">
+                  <a href="javascript:void(0)"><img src='assets/images/icons/csv.png' width="24" /> CSV</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+
+          <div class="panel-body">
+            <table id="customers2" ng-table="client.tableParams" class="table datatable" show-filter="true">
+              <tr ng-repeat="app1 in $data">
+              <td title="'App. Name'" filter="{ measurement: 'text'}" sortable="'measurement'">
+                {{app1.measurement1}}
+              </td>
+              <td title="'APM ID'" filter="{ apmid: 'text'}" sortable="'apmid'">
+                {{app1.apmid}}
+              </td>
+              <td title="'Environment'" filter="{ Environment: 'text'}" sortable="'environment'">
+                {{app1.environment}}
+              </td>
+              <td title="'HostName'" filter="{ hostname: 'text'}" sortable="'hostname'">
+                {{app1.hostname}}
+              </td>
+             <td title="'Location'" filter="{ location: 'text'}" sortable="'location'">
+                {{app1.location}}
+              </td>
+              <td title="'submeasurement'" filter="{ submeasurement: 'text'}" sortable="'submeasurement'">
+                {{app1.submeasurement}}
+              </td>
+
+              <td title="'Date'" filter="{ date: 'number'}" sortable="'date'">
+                {{app1.date}}
+              </td>
+              <td title="'Status'" filter="{ result: 'text'}" sortable="'result'">
+                {{app1.result}}
+              </td>
+             <td title="'MonitorName'" filter="{ monitorName: 'text'}" sortable="'monitorName'">
+                {{app1.monitorName}}
+
+             </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Metrics table -->
