@@ -1,0 +1,11 @@
+Missing Option Assignment/Exercise Trades in Mainframe Bookkeep File
+What happened:
+Trades for option assignment/exercise posted to Libra on Saturday morning did not flow through to the Bookkeep file in the mainframe by Monday night (30th). This is specifically affecting E-trade accounts.
+Financial Impact:
+A plug break of approximately $84 million was triggered, with a total of ~$800 million worth of activities still unaccounted for.
+The Expected Flow (not working correctly):
+
+Mainframe Job → Libra → PNS Real-Time → Bookkeep File
+
+Root of the investigation:
+The team is trying to determine at which step in the chain the trades dropped — whether the issue is on the Libra side, the PNS RT side, or the BNS-to-Bookkeep leg. There is some confusion/disagreement between teams (Mainframe/Murali's team vs. PNSRT/Nadeel's team) about ownership and where the gap occurred.
