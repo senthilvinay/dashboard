@@ -1,0 +1,18 @@
+Root Cause & Issue Summary
+What Went Wrong
+During a weekend deployment, a bug caused duplicate reference numbers to be generated for Option Assignment/Exercise trades (E-Trade accounts). Because of these duplicate reference numbers, when trades went through the back-bridging process, they were kicked out and never passed to Margin — flagged as duplicates in the PNS kick-out report.
+
+Impact
+AreaImpactTrades affected~2,400 tradesFinancial value~$84 million plug breakMainframe activity fileMissing all 2,400 tradesMarginTrades & 4020s never reached Margin or downstreamDistributed activity file (Libra)Certain legacy mainframe-only fields were not populatedE-Trade & MS activity filesThese activities are missingConfirmation/legacy downstreamPNS did not publish to downstream legacy systems
+
+What Will NOT Be Recovered
+
+Fields already published to EDW and T++ via the distributed activity file — those will not be republished, meaning certain legacy mainframe attributes will remain missing permanently for these trades.
+
+
+Resolution Plan
+
+Manually recreate the 2,400 trades into the mainframe file and republish via end-of-day batch
+Identify the missing fields backbridged from mainframe to distributed activity and communicate impact to downstream consumers
+Reverse the $84M plug once trades are replayed
+Update ICO with the full list of 2,400 affected trades
