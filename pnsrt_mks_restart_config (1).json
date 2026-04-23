@@ -1,0 +1,38 @@
+{
+  "_comment": "CP360\u00b0 MKS Kubernetes Configuration \u2014 edit values for your environment",
+  "clusters": [
+    "app41.hz.k8s.na.ms.com",
+    "app42.rr.k8s.na.ms.com",
+    "app33.nj.k8s.yn.ms.com",
+    "app33.nk.k8s.yn.ms.com",
+    "app34.nj.k8s.yn.ms.com",
+    "app34.nk.k8s.yn.ms.com"
+  ],
+  "exclude_services_restart": [
+    "pnsrt-cinema-prod-r1-dep",
+    "pnsrt-cinema-prod-r2-dep"
+  ],
+  "namespace": "wm-10168",
+  "deployment_id": "wm-10168",
+  "tcm": 603557550,
+  "wait_time": 600,
+  "jump_server": "iapp6744.randolph.ms.com",
+  "kubectl_path": "/ms/dist/cloud/PROJ/kubectl/prod/bin/kubectl",
+  "unimatrix_path": "/ms/dist/cloud/PROJ/unimatrix/prod/bin/unimatrix",
+  "email": {
+    "subject": "PROD-PNSRT MKS Deployment Restart Status",
+    "sender": "pnsrt-dev@morganstanley.com",
+    "receiver": "wmt-cpasg-risk-sec-transfer@morganstanley.com,wmt-asg-cc-team@morganstanley.com,pnsrt-dev@morganstanley.com"
+  },
+  "deployments": [
+    "pnsrt-input-processor",
+    "pnsrt-refdata-aggregator",
+    "pnsrt-trade-validation",
+    "pnsrt-trade-figuration",
+    "pnsrt-output-router",
+    "pnsrt-batch-api",
+    "pnsrt-exception-logger",
+    "pnsrt-cache-api"
+  ],
+  "_comment2": "deployments: list of deployment names to discover/restart (loaded by both Flask API and simulation)"
+}
